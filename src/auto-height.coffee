@@ -16,8 +16,10 @@ angular.module('m43nu.auto-height', []).
 
       angular.element($window).bind 'resize', ->
         additionalHeight = $attrs.additionalHeight || 0
-        parentHeight = $window.innerHeight - $element.parent()[0].getBoundingClientRect().top
-        $element.css('height', (parentHeight - combineHeights(siblings($element)) - additionalHeight) + "px")
+        parent = $element.parent()[0]
+        if parent and parent.getBoundingClientRect
+          parentHeight = $window.innerHeight - parent.getBoundingClientRect().top
+          $element.css('height', (parentHeight - combineHeights(siblings($element)) - additionalHeight) + "px")
 
       $timeout ->
         angular.element($window).triggerHandler('resize')
